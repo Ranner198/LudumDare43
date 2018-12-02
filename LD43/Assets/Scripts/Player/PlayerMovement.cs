@@ -14,13 +14,13 @@ public class PlayerMovement : MonoBehaviour {
         rb = GetComponent<Rigidbody>();
 	}
 
-	void Update () {
+	void FixedUpdate () {
 
         movement = new Vector3(-Input.GetAxis("Horizontal"), 0, -Input.GetAxis("Vertical"));
 
         if (movement.magnitude > .1f)
         {
-            rb.AddForce(transform.forward * speed);
+            rb.AddForce(transform.forward * speed * Time.deltaTime * 60);
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(-movement), Time.deltaTime * 2);
         }
 	}

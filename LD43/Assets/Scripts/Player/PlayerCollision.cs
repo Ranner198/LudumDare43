@@ -10,6 +10,8 @@ public class PlayerCollision : MonoBehaviour {
 
     public GameObject[] prefabs;
 
+    public float offset = 0;
+
     private void OnTriggerEnter(Collider coll)
     {
         if (coll.tag == "Pickup")
@@ -38,7 +40,9 @@ public class PlayerCollision : MonoBehaviour {
                 if (RedBoxes > 0)
                 {
                     RedBoxes--;
-                    GameObject redBox = Instantiate(prefabs[0], transform.position, Quaternion.identity);
+                    Vector3 pos = transform.position;
+                    pos.y += offset;
+                    GameObject redBox = Instantiate(prefabs[0], pos, Quaternion.identity);
                     redBox.name = "Red Box Prefab";
                     Destroy(coll.gameObject);
                 }
@@ -48,7 +52,9 @@ public class PlayerCollision : MonoBehaviour {
                 if (GreenBoxes > 0)
                 {
                     GreenBoxes--;
-                    GameObject greenBox = Instantiate(prefabs[1], transform.position, Quaternion.identity);
+                    Vector3 pos = transform.position;
+                    pos.y += offset;
+                    GameObject greenBox = Instantiate(prefabs[1], pos, Quaternion.identity);
                     greenBox.name = "Green Box Prefab";
                     Destroy(coll.gameObject);
                 }
@@ -58,7 +64,9 @@ public class PlayerCollision : MonoBehaviour {
                 if (BlueBoxes > 0)
                 {
                     BlueBoxes--;
-                    GameObject blueBox = Instantiate(prefabs[2], transform.position, Quaternion.identity);
+                    Vector3 pos = transform.position;
+                    pos.y += offset;
+                    GameObject blueBox = Instantiate(prefabs[2], pos, Quaternion.identity);
                     blueBox.name = "Blue Box Prefab";
                     Destroy(coll.gameObject);
                 }
