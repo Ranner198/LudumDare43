@@ -10,8 +10,11 @@ public class PlayerCollision : MonoBehaviour {
 
     public GameObject[] prefabs;
 
-    public float offset = 0;
+    public AudioClip pickupSound, dropOffSound;
 
+    public AudioSource _souce;
+
+    public float offset = 0;    
     private void OnTriggerEnter(Collider coll)
     {
         if (coll.tag == "Pickup")
@@ -20,16 +23,19 @@ public class PlayerCollision : MonoBehaviour {
             {
                 RedBoxes++;
                 Destroy(coll.gameObject);
+                _souce.PlayOneShot(pickupSound);
             }
             if (coll.name == "GreenPresent")
             {
                 GreenBoxes++;
                 Destroy(coll.gameObject);
+                _souce.PlayOneShot(pickupSound);
             }
             if (coll.name == "BluePresent")
             {
                 BlueBoxes++;
                 Destroy(coll.gameObject);
+                _souce.PlayOneShot(pickupSound);
             }
         }
 
@@ -45,6 +51,7 @@ public class PlayerCollision : MonoBehaviour {
                     GameObject redBox = Instantiate(prefabs[0], pos, Quaternion.identity);
                     redBox.name = "Red Box Prefab";
                     Destroy(coll.gameObject);
+                    _souce.PlayOneShot(dropOffSound);
                 }
             }
             if (coll.name == "Green")
@@ -57,6 +64,7 @@ public class PlayerCollision : MonoBehaviour {
                     GameObject greenBox = Instantiate(prefabs[1], pos, Quaternion.identity);
                     greenBox.name = "Green Box Prefab";
                     Destroy(coll.gameObject);
+                    _souce.PlayOneShot(dropOffSound);
                 }
             }
             if (coll.name == "Blue")
@@ -69,6 +77,7 @@ public class PlayerCollision : MonoBehaviour {
                     GameObject blueBox = Instantiate(prefabs[2], pos, Quaternion.identity);
                     blueBox.name = "Blue Box Prefab";
                     Destroy(coll.gameObject);
+                    _souce.PlayOneShot(dropOffSound);
                 }
             }
         }

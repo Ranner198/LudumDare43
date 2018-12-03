@@ -12,7 +12,11 @@ public class GameWinScript : MonoBehaviour {
     public Text numLeft;
     public Text finishTime;
 
+    public Leaderboard leaderboard;
+
     public float Timer = 0;
+
+    private bool upload = false;
 
     private void Start()
     {
@@ -38,6 +42,11 @@ public class GameWinScript : MonoBehaviour {
             GameSpace.SetActive(false);
             WinPanel.SetActive(true);
             finishTime.text = "Total Time:\n" + Output;
+            if (!upload)
+            {
+                upload = true;
+                leaderboard.UploadScore(Timer);                
+            }
         } else {
             Timer += Time.deltaTime;        
         }

@@ -6,9 +6,11 @@ using UnityEngine;
 public class PauseScript : MonoBehaviour {
 
     public GameObject PauseMenu;
+    public GameObject Settings;
+
     public MainMenuController fader;
 
-    private bool paused;
+    private bool paused = false, settings = false;
 
     void Start() {
         Time.timeScale = 1;
@@ -31,11 +33,13 @@ public class PauseScript : MonoBehaviour {
         if (paused)
         {
             Paused();
-            PauseMenu.SetActive(true);
+            if(!settings)
+                PauseMenu.SetActive(true);
             Cursor.visible = true;
         } else {
             PauseMenu.SetActive(false);
-            Cursor.visible = false;
+            if (!GameWinScript.hasWon)
+                Cursor.visible = false;
         }
 	}
 
@@ -59,6 +63,20 @@ public class PauseScript : MonoBehaviour {
     }
 
     public void MainMenu() {
+        paused = false;
+        Time.timeScale = 1;        
         SceneManager.LoadScene("MainMenu");
+    }
+
+    public void SettingsButton() {
+        settings = true;
+        Settings.SetActive(true);
+        PauseMenu.SetActive(false);
+    }
+
+    public void BackButton() {
+        settings = false;
+        Settings.SetActive(false);
+        PauseMenu.SetActive(true);
     }
 }

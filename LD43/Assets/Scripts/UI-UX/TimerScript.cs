@@ -15,14 +15,17 @@ public class TimerScript : MonoBehaviour {
 
         fillColor.color = Color.Lerp(startColor, finishColor, timer.value/timer.maxValue);
 
-        //Count Seconds
-        timer.value -= Time.deltaTime/2;
-
-        //Handel Lost Condition
-        if (timer.value < 0)
+        if (!GameWinScript.hasWon)
         {
-            //Throw lose screen
-            print("You have lost...");
+            //Count Seconds
+            timer.value -= Time.deltaTime / 2;
+
+            //Handel Lost Condition
+            if (timer.value < 0)
+            {
+                //Throw lose screen
+                print("You have lost...");
+            }
         }
 	}
 }
