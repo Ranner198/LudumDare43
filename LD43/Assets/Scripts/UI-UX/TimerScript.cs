@@ -18,7 +18,7 @@ public class TimerScript : MonoBehaviour {
         if (!GameWinScript.hasWon)
         {
             //Count Seconds
-            timer.value -= Time.deltaTime / 2;
+            timer.value -= Time.deltaTime / 4;
 
             //Handel Lost Condition
             if (timer.value < 0)
