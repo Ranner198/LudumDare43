@@ -48,8 +48,9 @@ public class PauseScript : MonoBehaviour {
         Time.timeScale = 1;
     }
 
-    void Paused() {
+    public void Paused() {
         Time.timeScale = 0;
+        paused = true;
     }
 
     public void Restart() {

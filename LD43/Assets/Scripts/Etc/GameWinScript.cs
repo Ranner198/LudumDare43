@@ -14,7 +14,7 @@ public class GameWinScript : MonoBehaviour {
 
     public Leaderboard leaderboard;
 
-    public float Timer = 0;
+    private float Timer = 0;
 
     private bool upload = false;
 

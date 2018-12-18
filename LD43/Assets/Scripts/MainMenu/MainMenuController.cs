@@ -19,7 +19,8 @@ public class MainMenuController : MonoBehaviour {
     void Start()
     {
         Cursor.visible = true;
-        inputFieldText.text = PlayerPrefs.GetString("name");
+        if (inputFieldText != null)
+            inputFieldText.text = PlayerPrefs.GetString("name");
         if (Settings != null)
             Settings.SetActive(false);
         if (Controls != null)

@@ -8,39 +8,45 @@ public class Leaderboard : MonoBehaviour {
     public Text leaderboardText;
     public GameObject loadSprite;
     private string textOutput;
+    private float timer = 999999;
+
 
     // Reference to the dreamloLeaderboard prefab in the scene
-
     dreamloLeaderBoard dl;
 
     void Start()
     {
         this.dl = dreamloLeaderBoard.GetSceneDreamloLeaderboard();
+        dl.LoadScores();
     }
 
-    public void UploadScore(float time)
+    public void UpdateScores()
     {
-        string name = PlayerPrefs.GetString("name");
-        int holder = Mathf.RoundToInt(time * 100);
-        print(holder);
-        dl.AddScore(name, 1, holder);
-        print("ScoreUpdated");
+
+        loadSprite.SetActive(true);
+
+        dl.LoadScores();
+
+        leaderboardText.text = "Loading.....";
+
+        StartCoroutine(DisplayScores());
+        StopCoroutine(DisplayScores());
     }
 
-    IEnumerator displayScores()
+    IEnumerator DisplayScores()
     {
         yield return new WaitForSeconds(3);
         loadSprite.SetActive(false);
         textOutput = "";
 
-        List<dreamloLeaderBoard.Score> scoreList = dl.ToListHighToLow();
+        List<dreamloLeaderBoard.Score> scoreList = dl.SecondsLowToHigh();
 
-        int maxToDisplay = 5;
+        //Make sure to make this a Scroll feature --------
+        int maxToDisplay = 20;
         int count = 0;
 
         foreach (dreamloLeaderBoard.Score currentScore in scoreList)
         {
-            print(currentScore);
             count++;
             textOutput += "Name:  " + currentScore.playerName + " :  ";
             float holder = currentScore.seconds;
@@ -51,16 +57,36 @@ public class Leaderboard : MonoBehaviour {
         leaderboardText.text = "-SpeedRun Leaderboard-\n" + textOutput;
     }
 
-    public void UpdateScores() {
+    public void UploadScore(float time)
+    {
+        timer = time;
+        ValidateScores();
+    }
 
-        loadSprite.SetActive(true);
+    void ValidateScores()
+    {
+        List<dreamloLeaderBoard.Score> scoreList = dl.SecondsLowToHigh();
 
-        dl.LoadScores();
+        int count = 0;
 
-        leaderboardText.text = "Loading.....";
-
-        StartCoroutine(displayScores());
-        StopCoroutine(displayScores());
+        foreach (dreamloLeaderBoard.Score currentScore in scoreList)
+        {
+            count++;
+            if (currentScore.playerName == PlayerPrefs.GetString("name"))
+            {
+                if (Mathf.RoundToInt(timer * 100) < currentScore.seconds)
+                {
+                    dl.AddScore(PlayerPrefs.GetString("name"), 1, Mathf.RoundToInt(timer*100));
+                    print("ScoreUpdated");
+                }
+                return;
+            }
+            if (count >= scoreList.Count)
+            {
+                print("Score Posted......");
+                dl.AddScore(PlayerPrefs.GetString("name"), 1, Mathf.RoundToInt(timer * 100));
+            }
+        }
     }
 
     string GenerateTime(float temp)
@@ -72,7 +98,6 @@ public class Leaderboard : MonoBehaviour {
 
         while (val > 60)
         {
-            print(true);
             min++;
             val -= 60;
         }
@@ -88,5 +113,16 @@ public class Leaderboard : MonoBehaviour {
             sec = seconds.ToString("F2");
 
         return min.ToString() + ":" + sec;
+    }
+
+    public bool ValidateScore() {
+
+        return true;
+    }
+
+
+
+    public void PullScore () {
+        dl.LoadScores();
     }
 }

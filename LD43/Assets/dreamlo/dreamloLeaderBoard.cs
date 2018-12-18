@@ -143,7 +143,7 @@ public class dreamloLeaderBoard : MonoBehaviour {
 		highScores = www.text;
 	}
 	
-	IEnumerator GetSingleScore(string playerName)
+    IEnumerator GetSingleScore(string playerName)
 	{
 		highScores = "";
 		WWW www = new WWW(dreamloWebserviceURL +  publicCode  + "/pipe-get/" + WWW.EscapeURL(playerName));
@@ -156,6 +156,12 @@ public class dreamloLeaderBoard : MonoBehaviour {
 		if (TooManyRequests()) return;
 		StartCoroutine(GetScores());
 	}
+
+    public void LoadSingleScore(string name)
+    {
+        if (TooManyRequests()) return;
+        StartCoroutine(GetSingleScore(name));
+    }
 
 	
 	public string[] ToStringArray()
@@ -174,8 +180,19 @@ public class dreamloLeaderBoard : MonoBehaviour {
 		if (scoreList == null) return new List<Score>();
 		
 		List<Score> genericList = new List<Score>(scoreList);
-			
 		genericList.Sort((x, y) => x.score.CompareTo(y.score));
+		
+		return genericList;
+	}
+
+	public List<Score> SecondsLowToHigh()
+	{
+		Score[] scoreList = this.ToScoreArray();
+		
+		if (scoreList == null) return new List<Score>();
+		
+		List<Score> genericList = new List<Score>(scoreList);
+		genericList.Sort((x, y) => x.seconds.CompareTo(y.seconds));
 		
 		return genericList;
 	}
