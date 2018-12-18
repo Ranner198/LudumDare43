@@ -46,7 +46,6 @@ public class PlayerMovement : MonoBehaviour
             rb.velocity = transform.forward * speed * Time.deltaTime * 12;
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(-movement), Time.deltaTime * IphoneModifer);
         }
-#endif
-
+#endif 
     }
 }

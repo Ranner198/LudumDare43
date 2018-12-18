@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine;
 
@@ -8,15 +9,24 @@ public class PauseScript : MonoBehaviour {
     public GameObject PauseMenu;
     public GameObject Settings;
 
+    public Text Fps;
+    private float FramesPerSecond;
+
     public MainMenuController fader;
 
     private bool paused = false, settings = false;
 
     void Start() {
         Time.timeScale = 1;
+        Application.targetFrameRate = 60;
     }
 
-	void Update () {
+	void Update () {        
+
+        FramesPerSecond = Time.frameCount / Time.time;
+        var avgFrameRate = (int)FramesPerSecond;
+        Fps.text = avgFrameRate.ToString() + " FPS";
+
         if (!GameWinScript.hasWon)
         {
             if (Input.GetKeyDown(KeyCode.Escape))

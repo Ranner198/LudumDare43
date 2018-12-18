@@ -10,7 +10,6 @@ public class Leaderboard : MonoBehaviour {
     private string textOutput;
     private float timer = 999999;
 
-
     // Reference to the dreamloLeaderboard prefab in the scene
     dreamloLeaderBoard dl;
 
@@ -48,11 +47,22 @@ public class Leaderboard : MonoBehaviour {
         foreach (dreamloLeaderBoard.Score currentScore in scoreList)
         {
             count++;
-            textOutput += "Name:  " + currentScore.playerName + " :  ";
-            float holder = currentScore.seconds;
-            var temp = GenerateTime(holder);
-            textOutput += temp + "s\n";
-            if (count >= maxToDisplay) break;
+            if (currentScore.playerName == PlayerPrefs.GetString("name"))
+            {
+                textOutput += "<color=red>" + "Name:  " + currentScore.playerName + " :  ";
+                float holder = currentScore.seconds;
+                var temp = GenerateTime(holder);
+                textOutput += temp + "s" + "</color>" + "\n";
+                print(true);
+            }
+            else
+            {
+                textOutput += "Name:  " + currentScore.playerName + " :  ";
+                float holder = currentScore.seconds;
+                var temp = GenerateTime(holder);
+                textOutput += temp + "s\n";
+            }
+                if (count >= maxToDisplay) break;            
         }
         leaderboardText.text = "-SpeedRun Leaderboard-\n" + textOutput;
     }
